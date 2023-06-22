@@ -1,0 +1,60 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.0-M4"
+}
+
+version = "0.1"
+group = "example.micronaut"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+
+    testImplementation("io.micronaut:micronaut-http-client")
+
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    implementation("io.micronaut.validation:micronaut-validation")
+
+    runtimeOnly("org.yaml:snakeyaml")
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    implementation("io.micronaut.microstream:micronaut-microstream")
+    implementation("io.micronaut.microstream:micronaut-microstream-annotations")
+    annotationProcessor("io.micronaut.microstream:micronaut-microstream-annotations")
+    developmentOnly("io.micronaut.microstream:micronaut-microstream-rest")
+    implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut.micrometer:micronaut-micrometer-core")
+
+    runtimeOnly("software.amazon.awssdk:s3")
+    runtimeOnly("io.micronaut.aws:micronaut-aws-sdk-v2")
+    runtimeOnly("one.microstream:microstream-afs-aws-s3")
+
+    implementation("io.swagger.core.v3:swagger-annotations")
+    annotationProcessor("io.micronaut:micronaut-management")
+    annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+}
+
+application {
+    mainClass.set("example.micronaut.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("example.micronaut.*")
+    }
+}
+
+
